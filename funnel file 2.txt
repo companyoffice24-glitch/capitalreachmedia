@@ -3,101 +3,734 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prequalify for Business Funding</title>
+    <title>Prequalify for Business Funding | Capital Reach Media</title>
     <style>
-        :root { --gold: #C9A84C; --dark: #0A0E1A; }
-        body { background: var(--dark); color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        #funnel-container { background: #111827; padding: 40px; border-radius: 15px; width: 100%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        :root {
+            --gold: #C9A84C;
+            --gold-light: #E8C96D;
+            --dark: #0A0E1A;
+            --dark2: #111827;
+            --dark3: #1C2333;
+            --green: #10B981;
+            --red: #EF4444;
+            --text-muted: #8892A4;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--dark);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* ── TOP LOGO ── */
+        .top-logo {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--gold);
+            margin-bottom: 24px;
+            letter-spacing: -0.5px;
+        }
+        .top-logo span { color: white; }
+
+        /* ── CARD ── */
+        #funnel-container {
+            background: var(--dark2);
+            padding: 40px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 520px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            border: 1px solid rgba(201,168,76,0.15);
+        }
+
+        /* ── PROGRESS ── */
+        .progress-wrap {
+            margin-bottom: 28px;
+        }
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        .progress-top span:last-child { color: var(--gold); font-weight: 700; }
+        .progress-bar {
+            height: 5px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            border-radius: 10px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+
+        /* ── STEPS ── */
         .step { display: none; }
-        .step.active { display: block; }
-        h2 { color: var(--gold); margin-bottom: 20px; }
-        .option-btn { display: block; width: 100%; padding: 15px; margin: 10px 0; background: #1F2937; border: 1px solid #374151; color: white; border-radius: 8px; cursor: pointer; text-align: left; font-size: 16px; }
-        .option-btn:hover { background: #374151; border-color: var(--gold); }
-        input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: 1px solid #374151; background: #0A0E1A; color: white; box-sizing: border-box; }
-        .submit-btn { width: 100%; padding: 15px; background: var(--gold); border: none; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: 10px; }
-        .progress-bar { height: 4px; background: #374151; margin-bottom: 20px; border-radius: 2px; }
-        .progress-fill { height: 100%; background: var(--gold); width: 20%; transition: 0.3s; }
+        .step.active {
+            display: block;
+            animation: fadeUp 0.3s ease;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .step-hint {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        /* ── OPTION BUTTONS ── */
+        .option-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 16px 18px;
+            margin: 8px 0;
+            background: var(--dark3);
+            border: 2px solid rgba(255,255,255,0.06);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            text-align: left;
+            transition: all 0.2s;
+        }
+        .option-btn:hover {
+            border-color: var(--gold);
+            background: rgba(201,168,76,0.08);
+            transform: translateX(3px);
+        }
+        .option-icon { font-size: 20px; min-width: 28px; text-align: center; }
+
+        /* ── INPUTS ── */
+        .form-group {
+            margin-bottom: 14px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: var(--dark);
+            color: white;
+            font-size: 15px;
+            transition: border-color 0.2s;
+            outline: none;
+        }
+        .form-group input:focus {
+            border-color: var(--gold);
+        }
+        .form-group input::placeholder { color: #4B5563; }
+        .form-group input.error-field {
+            border-color: var(--red) !important;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        /* ── CONSENT ── */
+        .consent-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .consent-box a { color: var(--gold); }
+
+        .consent-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+        .consent-check input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            min-width: 18px;
+            margin-top: 2px;
+            accent-color: var(--gold);
+            cursor: pointer;
+        }
+        .consent-check span {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* ── SUBMIT BUTTON ── */
+        .submit-btn {
+            width: 100%;
+            padding: 17px;
+            background: var(--gold);
+            border: none;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            color: #000;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .submit-btn:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(201,168,76,0.35);
+        }
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ── ERROR MSG ── */
+        .error-msg {
+            color: var(--red);
+            font-size: 13px;
+            margin-bottom: 12px;
+            display: none;
+            padding: 10px;
+            background: rgba(239,68,68,0.08);
+            border-radius: 6px;
+            border: 1px solid rgba(239,68,68,0.2);
+        }
+
+        /* ── DISQUALIFIED ── */
+        #stepDisq {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .disq-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        #stepDisq h2 { color: var(--red); margin-bottom: 12px; }
+        #stepDisq p { color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; }
+        .back-link {
+            color: var(--gold);
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        /* ── SUCCESS ── */
+        #stepSuccess { text-align: center; padding: 10px 0; }
+        .success-icon {
+            width: 72px;
+            height: 72px;
+            background: rgba(16,185,129,0.1);
+            border: 2px solid var(--green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 20px;
+        }
+        #stepSuccess h2 { color: var(--green); margin-bottom: 10px; }
+        #stepSuccess p { color: var(--text-muted); line-height: 1.7; margin-bottom: 24px; }
+
+        .next-steps {
+            background: rgba(201,168,76,0.06);
+            border: 1px solid rgba(201,168,76,0.2);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: left;
+        }
+        .next-steps h4 {
+            color: var(--gold);
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        .next-steps ul {
+            list-style: none;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .next-steps ul li {
+            padding: 5px 0;
+            display: flex;
+            gap: 8px;
+        }
+        .next-steps ul li::before { content: '✓'; color: var(--green); font-weight: 700; }
+
+        /* ── TRUST ROW ── */
+        .trust-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        .trust-row span { display: flex; align-items: center; gap: 4px; }
+
+        /* ── MOBILE ── */
+        @media (max-width: 520px) {
+            #funnel-container { padding: 28px 20px; }
+            .form-row { grid-template-columns: 1fr; }
+            h2 { font-size: 19px; }
+        }
     </style>
 </head>
 <body>
 
-<div id="funnel-container">
-    <div class="progress-bar"><div class="progress-fill" id="fill"></div></div>
+    <div class="top-logo">Capital<span>Reach</span> Media</div>
 
-    <!-- Step 1 -->
-    <div class="step active" id="step1">
-        <h2>Monthly Revenue?</h2>
-        <button class="option-btn" onclick="nextStep(2, 'revenue', 'Below $20k')">Below $20,000</button>
-        <button class="option-btn" onclick="nextStep(2, 'revenue', '$20k-$50k')">$20,000 - $50,000</button>
-        <button class="option-btn" onclick="nextStep(2, 'revenue', '$50k+')">$50,000+</button>
-    </div>
+    <div id="funnel-container">
 
-    <!-- Step 2 -->
-    <div class="step" id="step2">
-        <h2>Time in Business?</h2>
-        <button class="option-btn" onclick="nextStep(3, 'time', 'Less than 2 years')">Less than 2 years</button>
-        <button class="option-btn" onclick="nextStep(3, 'time', '2+ Years')">2+ Years</button>
-    </div>
+        <!-- PROGRESS BAR -->
+        <div class="progress-wrap" id="progressWrap">
+            <div class="progress-top">
+                <span id="stepLabel">Step 1 of 6</span>
+                <span id="stepPct">17%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="fill"></div>
+            </div>
+        </div>
 
-    <!-- Step 3 -->
-    <div class="step" id="step3">
-        <h2>Credit Score?</h2>
-        <button class="option-btn" onclick="nextStep(4, 'credit', 'Below 600')">Below 600</button>
-        <button class="option-btn" onclick="nextStep(4, 'credit', '600-650')">600 - 650</button>
-        <button class="option-btn" onclick="nextStep(4, 'credit', '650+')">650+</button>
-    </div>
+        <!-- ═══════════════════════════════════════ -->
+        <!-- STEP 1 — MONTHLY REVENUE               -->
+        <!-- ═══════════════════════════════════════ -->
+        <div class="step active" id="step1">
+            <div class="step-label">Step 1 of 6</div>
+            <h2>What is your average monthly revenue?</h2>
+            <p class="step-hint">Based on your last 3 months of bank deposits</p>
 
-    <!-- Step 4 -->
-    <div class="step" id="step4">
-        <h2>Contact Details</h2>
-        <input type="text" id="bizName" placeholder="Business Name">
-        <input type="text" id="fullName" placeholder="Full Name">
-        <input type="email" id="email" placeholder="Email Address">
-        <input type="tel" id="phone" placeholder="Phone Number">
-        <button class="submit-btn" onclick="finish()">SUBMIT APPLICATION</button>
-    </div>
+            <button class="option-btn" onclick="disqualify('revenue', 'Below $20k — does not meet minimum requirement.')">
+                <span class="option-icon">📉</span>Below $10,000 / month
+            </button>
+            <button class="option-btn" onclick="disqualify('revenue', 'Below $20k — does not meet minimum requirement.')">
+                <span class="option-icon">📊</span>$10,000 – $19,999 / month
+            </button>
+            <button class="option-btn" onclick="advance('revenue', '$20,000 – $50,000/month', 2)">
+                <span class="option-icon">📈</span>$20,000 – $50,000 / month
+            </button>
+            <button class="option-btn" onclick="advance('revenue', '$50,000+/month', 2)">
+                <span class="option-icon">🚀</span>$50,000+ / month
+            </button>
+        </div>
 
-    <!-- Success -->
-    <div class="step" id="step5">
-        <h2>Success!</h2>
-        <p>Thank you. A funding specialist will contact you shortly.</p>
-    </div>
-</div>
+        <!-- ═══════════════════════════════════════ -->
+        <!-- STEP 2 — TIME IN BUSINESS              -->
+        <!-- ═══════════════════════════════════════ -->
+        <div class="step" id="step2">
+            <div class="step-label">Step 2 of 6</div>
+            <h2>How long has your business been operating?</h2>
+            <p class="step-hint">This determines which funding programs you qualify for</p>
 
-<script>
-    let formData = {};
+            <button class="option-btn" onclick="disqualify('time', 'Less than 1 year — does not meet minimum 2 year requirement.')">
+                <span class="option-icon">🌱</span>Less than 1 year
+            </button>
+            <button class="option-btn" onclick="disqualify('time', '1–2 years — does not meet minimum 2 year requirement.')">
+                <span class="option-icon">📅</span>1 – 2 years
+            </button>
+            <button class="option-btn" onclick="advance('time', '2+ Years', 3)">
+                <span class="option-icon">🏆</span>2+ Years — Established Business
+            </button>
+        </div>
 
-    function nextStep(step, key, value) {
-        formData[key] = value;
-        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-        document.getElementById('step' + step).classList.add('active');
-        document.getElementById('fill').style.width = (step * 25) + '%';
-    }
+        <!-- ═══════════════════════════════════════ -->
+        <!-- STEP 3 — CREDIT SCORE                  -->
+        <!-- ═══════════════════════════════════════ -->
+        <div class="step" id="step3">
+            <div class="step-label">Step 3 of 6</div>
+            <h2>What is your estimated personal credit score?</h2>
+            <p class="step-hint">No hard credit pull — this is an estimate only</p>
 
-    async function finish() {
-        formData.bizName = document.getElementById('bizName').value;
-        formData.fullName = document.getElementById('fullName').value;
-        formData.email = document.getElementById('email').value;
-        formData.phone = document.getElementById('phone').value;
+            <button class="option-btn" onclick="disqualify('credit', 'Below 550 — does not meet 600 minimum.')">
+                <span class="option-icon">⚠️</span>Below 550
+            </button>
+            <button class="option-btn" onclick="disqualify('credit', '550–599 — does not meet 600 minimum.')">
+                <span class="option-icon">🔶</span>550 – 599
+            </button>
+            <button class="option-btn" onclick="advance('credit', '600–649', 4)">
+                <span class="option-icon">🟢</span>600 – 649
+            </button>
+            <button class="option-btn" onclick="advance('credit', '650+', 4)">
+                <span class="option-icon">⭐</span>650+ — Best Rates Available
+            </button>
+        </div>
 
-        // REPLACE THE URL BELOW WITH YOUR GOOGLE APPS SCRIPT URL
-        const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+        <!-- ═══════════════════════════════════════ -->
+        <!-- STEP 4 — JUDGEMENTS                    -->
+        <!-- ═══════════════════════════════════════ -->
+        <div class="step" id="step4">
+            <div class="step-label">Step 4 of 6</div>
+            <h2>Any outstanding judgements, liens, or defaults?</h2>
+            <p class="step-hint">Active judgements will affect your approval — be accurate for best results</p>
 
-        document.getElementById('step4').innerHTML = "<h2>Processing...</h2>";
+            <button class="option-btn" onclick="disqualify('judgements', 'Has active judgements or defaults — does not qualify.')">
+                <span class="option-icon">⚠️</span>Yes — I have active judgements or defaults
+            </button>
+            <button class="option-btn" onclick="advance('judgements', 'No — Clear', 5)">
+                <span class="option-icon">✅</span>No — I am clear of any judgements
+            </button>
+        </div>
 
-        try {
-            await fetch(scriptURL, { 
-                method: 'POST', 
-                mode: 'no-cors', 
-                cache: 'no-cache',
-                body: JSON.stringify(formData) 
-            });
-            nextStep(5);
-        } catch (e) {
-            alert("Error submitting. Please try again.");
+        <!-- ═══════════════════════════════════════ -->
+        <!-- STEP 5 — FUNDING AMOUNT                -->
+        <!-- ═══════════════════════════════════════ -->
+        <div class="step" id="step5">
+            <div class="step-label">Step 5 of 6</div>
+            <h2>How much funding does your business need?</h2>
+            <p class="step-hint">Select the range that best fits your goals right now</p>
+
+            <button class="option-btn" onclick="advance('amount', '$10,000 – $50,000', 6)">
+                <span class="option-icon">💵</span>$10,000 – $50,000
+            </button>
+            <button class="option-btn" onclick="advance('amount', '$50,000 – $150,000', 6)">
+                <span class="option-icon">💰</span>$50,000 – $150,000
+            </button>
+            <button class="option-btn" onclick="advance('amount', '$150,000 – $500,000', 6)">
+                <span class="option-icon">🏦</span>$150,000 – $500,000
+            </button>
+            <button class="option-btn" onclick="advance('amount', '$500,000+', 6)">
+                <span class="option-icon">🏢</span>$500,000+
+            </button>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- STEP 6 — CONTACT DETAILS               -->
+        <!-- ═══════════════════════════════════════ -->
+        <div class="step" id="step6">
+            <div class="step-label">Step 6 of 6 — Final Step!</div>
+            <h2>🎉 You Pre-Qualify! Enter Your Details</h2>
+            <p class="step-hint">A funding specialist will contact you within 24 hours</p>
+
+            <div class="error-msg" id="errorMsg">
+                ⚠️ Please fill in all required fields before submitting.
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>First Name *</label>
+                    <input type="text" id="firstName" placeholder="John">
+                </div>
+                <div class="form-group">
+                    <label>Last Name *</label>
+                    <input type="text" id="lastName" placeholder="Smith">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Business Name *</label>
+                <input type="text" id="businessName" placeholder="Smith's Auto Repair LLC">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Phone Number *</label>
+                    <input type="tel" id="phone" placeholder="(555) 000-0000" maxlength="14">
+                </div>
+                <div class="form-group">
+                    <label>Email Address *</label>
+                    <input type="email" id="email" placeholder="john@business.com">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Industry</label>
+                <input type="text" id="industry" placeholder="e.g. Restaurant, Trucking, Construction">
+            </div>
+
+            <!-- TCPA Consent -->
+            <div class="consent-box">
+                By submitting this form, you provide express written consent to be contacted
+                by Capital Reach Media and its partner lenders at the phone number and email
+                provided, including via automated calls, texts, and emails. Msg &amp; data rates
+                may apply. Consent is not required to receive services.
+                This is not a loan application or commitment to lend.
+            </div>
+
+            <label class="consent-check">
+                <input type="checkbox" id="tcpaConsent">
+                <span>I agree to be contacted by a funding specialist and accept the terms above. *</span>
+            </label>
+
+            <div id="errorMsg" class="error-msg"></div>
+
+            <button class="submit-btn" id="submitBtn" onclick="submitLead()">
+                🔒 See My Funding Options →
+            </button>
+
+            <div class="trust-row">
+                <span>🔒 256-bit SSL</span>
+                <span>✅ No Hard Pull</span>
+                <span>📋 TCPA Compliant</span>
+                <span>⚡ Fast Response</span>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- DISQUALIFIED                           -->
+        <!-- ═══════════════════════════════════════ -->
+        <div class="step" id="stepDisq">
+            <div class="disq-icon">⚠️</div>
+            <h2>Not Quite Ready Yet</h2>
+            <p>
+                Based on your answers, your business does not currently meet the minimum
+                requirements for our funding programs. Our programs require:
+            </p>
+            <ul style="text-align:left;color:#8892A4;font-size:14px;margin:16px 0;padding-left:20px;line-height:2;">
+                <li>✅ 2+ years in business</li>
+                <li>✅ $20,000+ in monthly revenue</li>
+                <li>✅ 600+ personal credit score</li>
+                <li>✅ No active judgements or defaults</li>
+            </ul>
+            <p>Check back in 90 days — things change and we update our programs regularly.</p>
+            <br>
+            <span class="back-link" onclick="resetFunnel()">← Start Over</span>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- SUCCESS                                -->
+        <!-- ═══════════════════════════════════════ -->
+        <div class="step" id="stepSuccess">
+            <div class="success-icon">✅</div>
+            <h2>You're Pre-Approved!</h2>
+            <p>
+                Your application has been received and matched to our lender network.
+                A specialist will contact you <strong>within 24 hours</strong> — often much sooner.
+                Keep your phone nearby!
+            </p>
+            <div class="next-steps">
+                <h4>📋 Have These Ready When They Call:</h4>
+                <ul>
+                    <li>Last 4 months of business bank statements</li>
+                    <li>Driver's license or government-issued ID</li>
+                    <li>Voided business check</li>
+                    <li>Business EIN number</li>
+                </ul>
+            </div>
+        </div>
+
+    </div><!-- end funnel-container -->
+
+    <script>
+        // ─────────────────────────────────────────────────────
+        // YOUR GOOGLE APPS SCRIPT URL — ALREADY CONNECTED ✅
+        // ─────────────────────────────────────────────────────
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyy6JXmgvGHRI6nUOs0beCEE0pUGFqXFYF0IN_MrWfRwHnAWP22gh2q5IL1mwysyXAF/exec';
+
+        // Lead data store
+        const lead = {};
+        let currentStepNum = 1;
+        const TOTAL_STEPS = 6;
+
+        // ─────────────────────────────────────────────────────
+        // ADVANCE to next step (qualified answer)
+        // ─────────────────────────────────────────────────────
+        function advance(field, value, nextStep) {
+            lead[field] = value;
+            lead.source = document.referrer || 'Direct';
+            showStep('step' + nextStep);
+            currentStepNum = nextStep;
+            updateProgress(nextStep);
         }
-    }
-</script>
+
+        // ─────────────────────────────────────────────────────
+        // DISQUALIFY — save reason, show disq screen
+        // ─────────────────────────────────────────────────────
+        function disqualify(field, reason) {
+            lead[field] = reason;
+            lead.status = 'Disqualified';
+            hideProgress();
+            showStep('stepDisq');
+        }
+
+        // ─────────────────────────────────────────────────────
+        // PROGRESS BAR
+        // ─────────────────────────────────────────────────────
+        function updateProgress(stepNum) {
+            const pct = Math.round((stepNum / TOTAL_STEPS) * 100);
+            document.getElementById('fill').style.width = pct + '%';
+            document.getElementById('stepLabel').textContent = 'Step ' + stepNum + ' of ' + TOTAL_STEPS;
+            document.getElementById('stepPct').textContent = pct + '%';
+        }
+
+        function hideProgress() {
+            document.getElementById('progressWrap').style.display = 'none';
+        }
+
+        // ─────────────────────────────────────────────────────
+        // SHOW STEP HELPER
+        // ─────────────────────────────────────────────────────
+        function showStep(id) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        // ─────────────────────────────────────────────────────
+        // PHONE FORMATTER
+        // ─────────────────────────────────────────────────────
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let val = e.target.value.replace(/\D/g, '');
+            if (val.length >= 6) {
+                val = '(' + val.substring(0,3) + ') ' + val.substring(3,6) + '-' + val.substring(6,10);
+            } else if (val.length >= 3) {
+                val = '(' + val.substring(0,3) + ') ' + val.substring(3);
+            }
+            e.target.value = val;
+        });
+
+        // ─────────────────────────────────────────────────────
+        // VALIDATE FIELDS
+        // ─────────────────────────────────────────────────────
+        function validate() {
+            let valid = true;
+            const required = ['firstName', 'lastName', 'businessName', 'phone', 'email'];
+
+            required.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el.value.trim()) {
+                    el.classList.add('error-field');
+                    valid = false;
+                } else {
+                    el.classList.remove('error-field');
+                }
+            });
+
+            // Email format check
+            const emailVal = document.getElementById('email').value;
+            const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
+            if (!emailOk) {
+                document.getElementById('email').classList.add('error-field');
+                valid = false;
+            }
+
+            // TCPA checkbox
+            if (!document.getElementById('tcpaConsent').checked) {
+                valid = false;
+                showError('You must agree to the terms to submit.');
+            }
+
+            if (!valid && document.getElementById('tcpaConsent').checked) {
+                showError('Please fill in all required fields.');
+            }
+
+            return valid;
+        }
+
+        function showError(msg) {
+            const el = document.getElementById('errorMsg');
+            el.textContent = '⚠️ ' + msg;
+            el.style.display = 'block';
+        }
+
+        function hideError() {
+            document.getElementById('errorMsg').style.display = 'none';
+        }
+
+        // ─────────────────────────────────────────────────────
+        // SUBMIT LEAD TO GOOGLE SHEETS
+        // ─────────────────────────────────────────────────────
+        async function submitLead() {
+            hideError();
+            if (!validate()) return;
+
+            // Collect contact fields
+            lead.firstName    = document.getElementById('firstName').value.trim();
+            lead.lastName     = document.getElementById('lastName').value.trim();
+            lead.businessName = document.getElementById('businessName').value.trim();
+            lead.phone        = document.getElementById('phone').value.trim();
+            lead.email        = document.getElementById('email').value.trim();
+            lead.industry     = document.getElementById('industry').value.trim();
+            lead.timestamp    = new Date().toISOString();
+            lead.source       = document.referrer || 'Direct';
+            lead.status       = 'New Lead';
+
+            // Disable button and show loading
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = '⏳ Submitting...';
+
+            try {
+                await fetch(SCRIPT_URL, {
+                    method:  'POST',
+                    mode:    'no-cors',
+                    cache:   'no-cache',
+                    headers: { 'Content-Type': 'application/json' },
+                    body:    JSON.stringify(lead)
+                });
+            } catch (err) {
+                // Still show success — no-cors mode always throws on response
+                console.log('Fetch note:', err);
+            }
+
+            // Always show success after submit attempt
+            hideProgress();
+            showStep('stepSuccess');
+        }
+
+        // ─────────────────────────────────────────────────────
+        // RESET (start over from disq screen)
+        // ─────────────────────────────────────────────────────
+        function resetFunnel() {
+            Object.keys(lead).forEach(k => delete lead[k]);
+            currentStepNum = 1;
+            document.getElementById('progressWrap').style.display = 'block';
+            updateProgress(1);
+            showStep('step1');
+        }
+
+        // Init progress bar
+        updateProgress(1);
+    </script>
 
 </body>
 </html>

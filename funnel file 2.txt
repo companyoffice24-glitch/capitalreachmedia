@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prequalify for Business Funding</title>
+    <style>
+        :root { --gold: #C9A84C; --dark: #0A0E1A; }
+        body { background: var(--dark); color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        #funnel-container { background: #111827; padding: 40px; border-radius: 15px; width: 100%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .step { display: none; }
+        .step.active { display: block; }
+        h2 { color: var(--gold); margin-bottom: 20px; }
+        .option-btn { display: block; width: 100%; padding: 15px; margin: 10px 0; background: #1F2937; border: 1px solid #374151; color: white; border-radius: 8px; cursor: pointer; text-align: left; font-size: 16px; }
+        .option-btn:hover { background: #374151; border-color: var(--gold); }
+        input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: 1px solid #374151; background: #0A0E1A; color: white; box-sizing: border-box; }
+        .submit-btn { width: 100%; padding: 15px; background: var(--gold); border: none; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: 10px; }
+        .progress-bar { height: 4px; background: #374151; margin-bottom: 20px; border-radius: 2px; }
+        .progress-fill { height: 100%; background: var(--gold); width: 20%; transition: 0.3s; }
+    </style>
+</head>
+<body>
+
+<div id="funnel-container">
+    <div class="progress-bar"><div class="progress-fill" id="fill"></div></div>
+
+    <!-- Step 1 -->
+    <div class="step active" id="step1">
+        <h2>Monthly Revenue?</h2>
+        <button class="option-btn" onclick="nextStep(2, 'revenue', 'Below $20k')">Below $20,000</button>
+        <button class="option-btn" onclick="nextStep(2, 'revenue', '$20k-$50k')">$20,000 - $50,000</button>
+        <button class="option-btn" onclick="nextStep(2, 'revenue', '$50k+')">$50,000+</button>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step" id="step2">
+        <h2>Time in Business?</h2>
+        <button class="option-btn" onclick="nextStep(3, 'time', 'Less than 2 years')">Less than 2 years</button>
+        <button class="option-btn" onclick="nextStep(3, 'time', '2+ Years')">2+ Years</button>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step" id="step3">
+        <h2>Credit Score?</h2>
+        <button class="option-btn" onclick="nextStep(4, 'credit', 'Below 600')">Below 600</button>
+        <button class="option-btn" onclick="nextStep(4, 'credit', '600-650')">600 - 650</button>
+        <button class="option-btn" onclick="nextStep(4, 'credit', '650+')">650+</button>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step" id="step4">
+        <h2>Contact Details</h2>
+        <input type="text" id="bizName" placeholder="Business Name">
+        <input type="text" id="fullName" placeholder="Full Name">
+        <input type="email" id="email" placeholder="Email Address">
+        <input type="tel" id="phone" placeholder="Phone Number">
+        <button class="submit-btn" onclick="finish()">SUBMIT APPLICATION</button>
+    </div>
+
+    <!-- Success -->
+    <div class="step" id="step5">
+        <h2>Success!</h2>
+        <p>Thank you. A funding specialist will contact you shortly.</p>
+    </div>
+</div>
+
+<script>
+    let formData = {};
+
+    function nextStep(step, key, value) {
+        formData[key] = value;
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        document.getElementById('step' + step).classList.add('active');
+        document.getElementById('fill').style.width = (step * 25) + '%';
+    }
+
+    async function finish() {
+        formData.bizName = document.getElementById('bizName').value;
+        formData.fullName = document.getElementById('fullName').value;
+        formData.email = document.getElementById('email').value;
+        formData.phone = document.getElementById('phone').value;
+
+        // REPLACE THE URL BELOW WITH YOUR GOOGLE APPS SCRIPT URL
+        const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+
+        document.getElementById('step4').innerHTML = "<h2>Processing...</h2>";
+
+        try {
+            await fetch(scriptURL, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                cache: 'no-cache',
+                body: JSON.stringify(formData) 
+            });
+            nextStep(5);
+        } catch (e) {
+            alert("Error submitting. Please try again.");
+        }
+    }
+</script>
+
+</body>
+</html>
